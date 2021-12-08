@@ -1,14 +1,13 @@
 import tensorflow.compat.v1 as tf
 import random
 import os
-from PIL import Image
 
 try:
   from os import scandir
 except ImportError:
   # Python 2 polyfill module
   from scandir import scandir
-
+    
 
 FLAGS = tf.flags.FLAGS
 
@@ -31,9 +30,8 @@ def data_reader(input_dir, shuffle=True):
   """
   file_paths = []
 
-
   for img_file in scandir(input_dir):
-    if img_file.name.endswith('.jpg') and img_file.is_file():
+    if img_file.name.endswith('.png') and img_file.is_file():
       file_paths.append(img_file.path)
 
   if shuffle:
@@ -86,7 +84,7 @@ def data_writer(input_dir, output_file):
   output_dir = os.path.dirname(output_file)
   try:
     os.makedirs(output_dir)
-  except (os.error):
+  except os.error as e:
     pass
 
   images_num = len(file_paths)
